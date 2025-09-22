@@ -1,0 +1,19 @@
+import base64
+
+# CHANGE THIS to where your video lives on your phone:
+mp4_path = "/sdcard/Movies/myvideo.mp4"
+
+# Output text file with Base64
+out_path = "video.b64"
+
+with open(mp4_path, "rb") as f:
+    data = f.read()
+
+b64 = base64.b64encode(data).decode()
+
+# Save to file (so you don’t lose it if console truncates)
+with open(out_path, "w") as f:
+    f.write(b64)
+
+print("Base64 saved to", out_path)
+print("You can now open video.b64 in Pydroid and copy all text to GitHub.")

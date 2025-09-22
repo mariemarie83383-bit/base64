@@ -1,0 +1,27 @@
+name: Decode MP4 from Base64
+
+on:
+  push:
+    paths:
+      - video.b64
+      - .github/workflows/decode.yml
+  workflow_dispatch:
+
+jobs:
+  decode:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Normalize whitespace just in case the Base64 is wrapped across lines
+      - name: Decode
+        run: |
+          tr -d '\n\r\t ' < video.b64 > video_flat.b64
+          base64 -d video_flat.b64 > output.mp4
+
+      - name: Upload MP4 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mp4
+          path: output.mp4
+          if-no-files-found: error
